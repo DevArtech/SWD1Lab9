@@ -13,42 +13,62 @@ package hailea;
  * @author Adam Haile
  */
 public class District {
-    private ParkingLot lot1;
-    private ParkingLot lot2;
-    private ParkingLot lot3;
 
+    ParkingLot[] lots;
+    int numLots = 0;
+    static final int MAX_LOTS = 20;
     int timeAllClosed = 0;
     int timeReopened = 0;
 
     /**
-     * Set up a district with three parking lots.
-     * @param name1 Name of the first parking lot
-     * @param capacity1 Maximum number of vehicles for the first parking lot
-     * @param name2 Name of the second parking lot
-     * @param capacity2 Maximum number of vehicles for the second parking lot
-     * @param name3 Name of the third parking lot
-     * @param capacity3 Maximum number of vehicles for the third parking lot
+     * Set up a district with a set amount of parking lots in an array.
      */
-    public District(String name1, int capacity1, String name2, int capacity2,
-                    String name3, int capacity3) {
-        lot1 = new ParkingLot(name1, capacity1);
-        lot2 = new ParkingLot(name2, capacity2);
-        lot3 = new ParkingLot(name3, capacity3);
+    public District() {
+        lots = new ParkingLot[MAX_LOTS];
+    }
+
+    /**
+     * Adds a new ParkingLot to the District
+     * @param name - String, the name of the Parking Lot
+     * @param capacity - Integer, the capacity of the Parking Lot
+     * @return The index of the Parking Lot in the District array
+     */
+
+    public int addLot(String name, int capacity) {
+        int newIndex = numLots;
+        if(newIndex<MAX_LOTS) {
+            lots[newIndex] = new ParkingLot(name, capacity);
+            numLots++;
+        }
+        // return the index of the new lot or -1 if the lot was not added.
+        return newIndex<MAX_LOTS ? newIndex : -1;
+    }
+
+    /**
+     * Gets the parking lot of the specified index within the district array
+     * @param index - The index of the searched for parking lot
+     * @return The Parking Lot at the specified index with in the Distict array
+     */
+
+    public ParkingLot getLot(int index) {
+        for(ParkingLot lot : lots) {
+            if(lots[index] == lot) {
+                return lot;
+            }
+        }
+        return null;
     }
 
     /**
      * Display status information for all three lots.
-     * @see ParkingLot#displayStatus() for the format for each.
+     * @see ParkingLot#toString() for the format for each.
      */
-    public void displayStatus() {
-        System.out.println("District status:");
-        System.out.print("  ");
-        lot1.displayStatus();
-        System.out.print("  ");
-        lot2.displayStatus();
-        System.out.print("  ");
-        lot3.displayStatus();
-        System.out.println();
+    public String toString() {
+        String collective = "District Status: ";
+        for (ParkingLot lot : lots) {
+            collective = collective + "\n" + lot.toString();
+        }
+        return collective;
     }
 
     /**
@@ -56,10 +76,11 @@ public class District {
      * @return the number of remaining parking spots in the district
      */
     public int getNumberOfSpotsRemaining() {
-        int spots1 = lot1.getNumberOfSpotsRemaining();
-        int spots2 = lot2.getNumberOfSpotsRemaining();
-        int spots3 = lot3.getNumberOfSpotsRemaining();
-        return spots1 + spots2 + spots3;
+        int collective = 0;
+        for (ParkingLot lot : lots) {
+            collective += lot.getNumberOfSpotsRemaining();
+        }
+        return collective;
     }
 
     /**
@@ -77,10 +98,19 @@ public class District {
      * @return whether all three lots in the district are closed
      */
     public boolean isClosed() {
-        boolean close1 = lot1.isClosed();
-        boolean close2 = lot2.isClosed();
-        boolean close3 = lot3.isClosed();
-        return close1 && close2 && close3;
+        boolean closeCheck = false;
+        int lotTotalClosed = 0;
+        for (ParkingLot lot : lots) {
+            if (lot.isClosed()) {
+                lotTotalClosed++;
+            }
+        }
+
+        if(lotTotalClosed == lots.length) {
+            closeCheck = true;
+        }
+
+        return closeCheck;
     }
 
     /**
@@ -91,29 +121,13 @@ public class District {
      * <p></p>
      * If lotNumber is out of range, the method should return without
      * doing anything else.
-     * @param lotNumber Number of lot (should be 1, 2, or 3)
+     * @param lotNumber Number of lot (should be within the District's array)
      * @param timestamp Entry timestamp in minutes since all lots were opened.
      */
     public void markVehicleEntry(int lotNumber, int timestamp) {
-        switch (lotNumber) {
-            case 1:
-                lot1.markVehicleEntry(timestamp);
-                if(isClosed()) {
-                    timeAllClosed = timestamp;
-                }
-                break;
-            case 2:
-                lot2.markVehicleEntry(timestamp);
-                if(isClosed()) {
-                    timeAllClosed = timestamp;
-                }
-                break;
-            case 3:
-                lot3.markVehicleEntry(timestamp);
-                if(isClosed()) {
-                    timeAllClosed = timestamp;
-                }
-                break;
+        lots[lotNumber].markVehicleEntry(timestamp);
+        if(isClosed()) {
+            timeAllClosed = timestamp;
         }
     }
 
@@ -125,45 +139,16 @@ public class District {
      * <p></p>
      * If lotNumber is out of range, the method should return without
      * doing anything else.
-     * @param lotNumber Number of lot (should be 1, 2, or 3)
+     * @param lotNumber Number of lot (should be within the Distict's array)
      * @param timestamp Exit timestamp in minutes since all lots were opened.
      */
     public void markVehicleExit(int lotNumber, int timestamp) {
-        boolean closed = false;
-        switch (lotNumber) {
-            case 1:
-                if(isClosed()) {
-                    closed = true;
-                }
-                lot1.markVehicleExit(timestamp);
-                if(closed) {
-                    if(!isClosed()) {
-                        timeReopened = timestamp;
-                    }
-                }
-                break;
-            case 2:
-                if(isClosed()) {
-                    closed = true;
-                }
-                lot2.markVehicleExit(timestamp);
-                if(closed) {
-                    if(!isClosed()) {
-                        timeReopened = timestamp;
-                    }
-                }
-                break;
-            case 3:
-                if(isClosed()) {
-                    closed = true;
-                }
-                lot3.markVehicleExit(timestamp);
-                if(closed) {
-                    if(!isClosed()) {
-                        timeReopened = timestamp;
-                    }
-                }
-                break;
+        boolean closed = isClosed();
+        lots[lotNumber].markVehicleExit(timestamp);
+        if (closed) {
+            if (!isClosed()) {
+                timeReopened = timestamp;
+            }
         }
     }
 }
