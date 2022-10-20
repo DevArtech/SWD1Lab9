@@ -80,14 +80,16 @@ public class ParkingLot {
     }
 
     /**
-     * Prints the name of the parking lot, and the percentage of occupied space
+     * Returns the name of the parking lot, the number of cars in it, and the percentage of occupied space
      */
-    public void displayStatus() {
+
+    public String toString() {
         if(getNumberOfSpotsRemaining() == 0) {
-            System.out.format("%s parking lot status: CLOSED\n", this.name);
+            return "Status for " + name +  " parking lot: " + (int)amountOfCars +
+                    " vehicles (Closed)";
         } else {
-            System.out.format("%s parking lot status: %.2f\n", this.name,
-                    ((amountOfCars / capacity) * percentMultiplier));
+            return "Status for " + name +  " parking lot: " + (int)amountOfCars +
+                    " vehicles (" + ((amountOfCars / capacity) * percentMultiplier) + "%)";
         }
     }
 
