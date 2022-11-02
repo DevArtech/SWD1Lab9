@@ -1,7 +1,7 @@
 /*
  * Course: CS1011 - Saikath Bhattacharya
  * Fall 2022
- * Lab 8 - Parking Lots
+ * Lab 9 - Parking Lots
  * Name: Adam Haile
  * Created: 10/19/22
  */
@@ -64,11 +64,14 @@ public class District {
      * @see ParkingLot#toString() for the format for each.
      */
     public String toString() {
-        String collective = "District Status: ";
-        for (ParkingLot lot : lots) {
-            collective = collective + "\n" + lot.toString();
+        StringBuilder tot = new StringBuilder();
+        tot.append("District status:\n");
+        for(ParkingLot lot : lots) {
+            if(lot != null) {
+                tot.append("  " + lot + "\n");
+            }
         }
-        return collective;
+        return tot.toString();
     }
 
     /**
@@ -78,7 +81,9 @@ public class District {
     public int getNumberOfSpotsRemaining() {
         int collective = 0;
         for (ParkingLot lot : lots) {
-            collective += lot.getNumberOfSpotsRemaining();
+            if(lot != null) {
+                collective += lot.getNumberOfSpotsRemaining();
+            }
         }
         return collective;
     }
@@ -100,13 +105,17 @@ public class District {
     public boolean isClosed() {
         boolean closeCheck = false;
         int lotTotalClosed = 0;
+        int lotsChecked = 0;
         for (ParkingLot lot : lots) {
-            if (lot.isClosed()) {
-                lotTotalClosed++;
+            if(lot != null) {
+                if (lot.isClosed()) {
+                    lotTotalClosed++;
+                }
+                lotsChecked++;
             }
         }
 
-        if(lotTotalClosed == lots.length) {
+        if(lotTotalClosed == lotsChecked) {
             closeCheck = true;
         }
 
