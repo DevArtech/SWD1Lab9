@@ -1,7 +1,7 @@
 /*
  * Course: CS1011 - Saikath Bhattacharya
  * Fall 2022
- * Lab 8 - Parking Lots
+ * Lab 9 - Parking Lots
  * Name: Adam Haile
  * Created: 10/19/22
  */
@@ -41,6 +41,14 @@ public class ParkingLot {
         if(name != null) {
             this.name = name;
         }
+        this.capacity = capacity;
+    }
+
+    /**
+     * Overloading Method for ParkingLot
+     * @param capacity Integer (Capacity of parking lot)
+     */
+    public ParkingLot(int capacity) {
         this.capacity = capacity;
     }
 
@@ -86,10 +94,15 @@ public class ParkingLot {
     public String toString() {
         if(getNumberOfSpotsRemaining() == 0) {
             return "Status for " + name +  " parking lot: " + (int)amountOfCars +
-                    " vehicles (Closed)";
+                    " vehicles (CLOSED)";
+        } else if(((amountOfCars / capacity) * percentMultiplier) % 1 != 0) {
+            return "Status for " + name +  " parking lot: " + (int)amountOfCars +
+                    " vehicles (" + Math.round
+                    (((amountOfCars / capacity) * percentMultiplier) * 10.0) / 10.0 + "%)";
         } else {
             return "Status for " + name +  " parking lot: " + (int)amountOfCars +
-                    " vehicles (" + ((amountOfCars / capacity) * percentMultiplier) + "%)";
+                    " vehicles (" + Math.round
+                    (((amountOfCars / capacity) * percentMultiplier) * 10) / 10 + "%)";
         }
     }
 
