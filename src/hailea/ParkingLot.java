@@ -10,6 +10,7 @@ package hailea;
 
 /**
  * The Parking Lot class which manages the logic of the Parking Lot
+ * @author Adam Haile
  */
 
 public class ParkingLot {
@@ -93,17 +94,20 @@ public class ParkingLot {
      */
 
     public String toString() {
+        final double roundMultiplier = 10.0;
+        final int truncateMultiplier = 10;
+
         if(getNumberOfSpotsRemaining() == 0) {
-            return "Status for " + name +  " parking lot: " + (int)amountOfCars +
+            return "Status for " + name + " parking lot: " + (int)amountOfCars +
                     " vehicles (CLOSED)";
         } else if(((amountOfCars / capacity) * percentMultiplier) % 1 != 0) {
-            return "Status for " + name +  " parking lot: " + (int)amountOfCars +
+            return "Status for " + name + " parking lot: " + (int)amountOfCars +
                     " vehicles (" + Math.round(((amountOfCars / capacity)
-                    * percentMultiplier) * 10.0) / 10.0 + "%)";
+                    * percentMultiplier) * roundMultiplier) / roundMultiplier + "%)";
         } else {
-            return "Status for " + name +  " parking lot: " + (int)amountOfCars +
-                    " vehicles (" + Math.round
-                    (((amountOfCars / capacity) * percentMultiplier) * 10) / 10 + "%)";
+            return "Status for " + name + " parking lot: " + (int)amountOfCars +
+                    " vehicles (" + Math.round(((amountOfCars / capacity) *
+                    percentMultiplier) * truncateMultiplier) / truncateMultiplier + "%)";
         }
     }
 
