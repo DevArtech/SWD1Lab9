@@ -3,7 +3,7 @@
  * Fall 2022
  * Lab 9 - Parking Lots
  * Name: Adam Haile
- * Created: 10/19/22
+ * Created: 11/02/22
  */
 
 package hailea;
@@ -88,7 +88,8 @@ public class ParkingLot {
     }
 
     /**
-     * Returns the name of the parking lot, the number of cars in it, and the percentage of occupied space
+     * Returns the name of the parking lot, the number of cars in it,
+     * and the percentage of occupied space
      */
 
     public String toString() {
@@ -97,8 +98,8 @@ public class ParkingLot {
                     " vehicles (CLOSED)";
         } else if(((amountOfCars / capacity) * percentMultiplier) % 1 != 0) {
             return "Status for " + name +  " parking lot: " + (int)amountOfCars +
-                    " vehicles (" + Math.round
-                    (((amountOfCars / capacity) * percentMultiplier) * 10.0) / 10.0 + "%)";
+                    " vehicles (" + Math.round(((amountOfCars / capacity)
+                    * percentMultiplier) * 10.0) / 10.0 + "%)";
         } else {
             return "Status for " + name +  " parking lot: " + (int)amountOfCars +
                     " vehicles (" + Math.round

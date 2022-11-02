@@ -3,7 +3,7 @@
  * Fall 2022
  * Lab 9 - Parking Lots
  * Name: Adam Haile
- * Created: 10/19/22
+ * Created: 11/02/22
  */
 
 package hailea;
@@ -47,7 +47,7 @@ public class District {
     /**
      * Gets the parking lot of the specified index within the district array
      * @param index - The index of the searched for parking lot
-     * @return The Parking Lot at the specified index with in the Distict array
+     * @return The Parking Lot at the specified index with in the District array
      */
 
     public ParkingLot getLot(int index) {
@@ -68,7 +68,7 @@ public class District {
         tot.append("District status:\n");
         for(ParkingLot lot : lots) {
             if(lot != null) {
-                tot.append("  " + lot + "\n");
+                tot.append("  ").append(lot).append("\n");
             }
         }
         return tot.toString();
@@ -148,7 +148,7 @@ public class District {
      * <p></p>
      * If lotNumber is out of range, the method should return without
      * doing anything else.
-     * @param lotNumber Number of lot (should be within the Distict's array)
+     * @param lotNumber Number of lot (should be within the District's array)
      * @param timestamp Exit timestamp in minutes since all lots were opened.
      */
     public void markVehicleExit(int lotNumber, int timestamp) {
